@@ -13,7 +13,7 @@ extern jmp_buf jmp_exit;
  * Signature: ([C)I
  */
 JNIEXPORT jint JNICALL Java_no_hyper_ffmpegwrapper_FfmpegService__1_1execute
-  (JNIEnv *, jobject, jcharArray);
+  (JNIEnv *, jobject, jstring);
 
 /*
  * Class:     no_hyper_ffmpegwrapper_FfmpegService

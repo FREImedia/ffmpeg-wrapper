@@ -44,7 +44,7 @@ public class HelloJni extends Activity {
 			@Override
 			public void onClick(View v) {
 				pd = ProgressDialog.show(HelloJni.this, "Converting", CMD_SAMPLE, true);
-				ffmpegService.execute(CMD_SAMPLE.toCharArray(), cb);
+				ffmpegService.execute(CMD_SAMPLE, cb);
 			}
 
 		});

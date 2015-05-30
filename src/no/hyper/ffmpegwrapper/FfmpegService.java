@@ -12,7 +12,7 @@ public class FfmpegService {
 		System.loadLibrary("ffmpeg-app");
 	}
 	
-	public int execute(final char[] cmd, final Callback cb){
+	public int execute(final String cmd, final Callback cb){
 		new Thread(){
 			@Override
 			public void run() {
@@ -28,7 +28,7 @@ public class FfmpegService {
 	/*
 	 * Synchronous call
 	 */
-	private native int __execute(char[] cmd);
+	private native int __execute(String cmd);
 
 	/*
 	 * Asynchronous call, returned by onCancel

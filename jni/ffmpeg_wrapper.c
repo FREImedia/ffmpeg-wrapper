@@ -29,34 +29,48 @@ jmp_buf jmp_exit;
 
 extern int __main(int argc, char** argv);
 
+
 static void log_callback_android(void *ptr, int level, const char *fmt, va_list vl)
 {
 	__android_log_vprint(ANDROID_LOG_INFO, MODULE_FFMPEG, fmt, vl);
 }
 
+
 JNIEXPORT jint JNICALL Java_no_hyper_ffmpegwrapper_FfmpegService__1_1execute
-  (JNIEnv *env, jobject self, jcharArray cmd)
+  (JNIEnv *env, jobject self, jstring jCmd)
 {
 	int i;
-	char cmd0[] = "ffmpeg";
-	char cmd1[] = "-i";
-	// char cmd2[] = "/storage/sdcard1/1080p.3gp";
-	char cmd2[] = "/storage/sdcard1/1080p.3gp";
-   	char cmd3[] = "-s";
-    char cmd4[] = "480x320";
-    char cmd5[] = "-y";
-	// char cmd5[] = "/storage/sdcard1/output.mpeg";
-	char cmd6[] = "/storage/sdcard1/output.mpeg";
+	char* argv[32] = {0};
+	char* pch;
+	int argc = 0;
+	char *cmd;
 
-	char *argv[] = {cmd0, cmd1, cmd2, cmd3, cmd4, cmd5, cmd6};
-       
+	const char *tmp = (*env)->GetStringUTFChars(env, jCmd, 0);
+	i = (*env)->GetStringUTFLength(env, jCmd);
+	cmd = calloc(sizeof(const char), i);
+	strcpy(cmd, tmp);
+	(*env)->ReleaseStringUTFChars(env, jCmd, tmp);
+
+	__android_log_print(ANDROID_LOG_INFO, MODULE_FFMPEG, "cmd=[%s]", cmd);
+
+	pch = strtok(cmd, " ");
+	while (pch != NULL)
+	{
+		argv[argc++] = pch;
+		pch = strtok(NULL, " ");
+	}
+
+	for (i = 0; i < argc; i++)
+		__android_log_print(ANDROID_LOG_INFO, MODULE_FFMPEG, "argv[%d]=%s", i, argv[i]);
+
 	av_log_set_callback(log_callback_android);
 
-	i = setjmp(jmp_exit);
-	if (i)
+	if(setjmp(jmp_exit))
 		return i;
 
-	__main(sizeof(argv)/sizeof(char*), argv);
+	__main(argc, argv);
+
+	free (cmd);
 	return 0;
 }
 
