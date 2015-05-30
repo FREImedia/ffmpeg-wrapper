@@ -17,6 +17,7 @@ package com.example.hellojni;
 
 import no.hyper.ffmpegwrapper.FfmpegService;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +25,7 @@ import android.widget.Button;
 
 public class HelloJni extends Activity {
 	FfmpegService ffmpegService;
+	ProgressDialog pd;
 	
 	private static final String CMD_SAMPLE = "ffmpeg -i /storage/sdcard1/1080p.3gp -s 480x320 -y /storage/sdcard1/output.mpeg";
 
@@ -34,16 +36,27 @@ public class HelloJni extends Activity {
 		ffmpegService = new FfmpegService();
 		
 		Button btn = new Button(this);
+		btn.setText("Convert");
 		setContentView(btn);
 
 		btn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				ffmpegService.execute(CMD_SAMPLE.toCharArray());
+				pd = ProgressDialog.show(HelloJni.this, "Converting", CMD_SAMPLE, true);
+				ffmpegService.execute(CMD_SAMPLE.toCharArray(), cb);
 			}
 
 		});
 	}
+
+	private FfmpegService.Callback cb = new FfmpegService.Callback(){
+		public void onFinish(final int ret){
+			if (pd != null && pd.isShowing())
+				pd.dismiss();
+		}
+		public void onProgress(int percent){
+		}
+	};
 
 }

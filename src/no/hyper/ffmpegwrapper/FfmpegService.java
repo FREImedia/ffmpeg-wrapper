@@ -12,11 +12,12 @@ public class FfmpegService {
 		System.loadLibrary("ffmpeg-app");
 	}
 	
-	public int execute(final char[] cmd){
+	public int execute(final char[] cmd, final Callback cb){
 		new Thread(){
 			@Override
 			public void run() {
-				__execute(cmd);
+				int ret = __execute(cmd);
+				cb.onFinish(ret);
 			}
 			
 		}.start();
@@ -44,5 +45,10 @@ public class FfmpegService {
 	 * Invoked when cancellation is success.
 	 */
 	public void onCancel() {
+	}
+
+	public interface Callback {
+		public void onFinish(final int ret);
+		public void onProgress(int percent);
 	}
 }
