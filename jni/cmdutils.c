@@ -59,6 +59,8 @@
 #include <sys/resource.h>
 #endif
 
+#include "ffmpeg_wrapper.h"
+
 static int init_report(const char *env);
 
 struct SwsContext *sws_opts;
@@ -123,7 +125,8 @@ void exit_program(int ret)
     if (program_exit)
         program_exit(ret);
 
-    exit(ret);
+	longjmp(jmp_exit, ret);
+    // exit(ret);
 }
 
 double parse_number_or_die(const char *context, const char *numstr, int type,

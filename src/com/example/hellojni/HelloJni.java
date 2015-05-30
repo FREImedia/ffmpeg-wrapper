@@ -25,7 +25,7 @@ import android.widget.Button;
 public class HelloJni extends Activity {
 	FfmpegService ffmpegService;
 	
-	private static final String CMD_SAMPLE = "ffmpeg -i /storage/sdcard1/1080p.3gp -s 480x320 /storage/sdcard1/output.mpeg";
+	private static final String CMD_SAMPLE = "ffmpeg -i /storage/sdcard1/1080p.3gp -s 480x320 -y /storage/sdcard1/output.mpeg";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

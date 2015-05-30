@@ -36,3 +36,7 @@ bin
 obj
 gen
 local.properties
+*.swp
+*.swo
+tags
+libs
