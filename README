@@ -14,15 +14,28 @@ those project uses ffmpeg as an independent process.
 to make sure the changes are very few, so that when it upgrades, I don't need to change too much.
 
 
-=====================================
- What was changed
-=====================================
+
+# How to use ist
+
+1) Clone repo
+2) Download FFMPEG 2.7.7 source files
+3) Set paths in ffmpeg_build_script/build_for_android.sh
+4) run "sh ffmpeg_build_script/build_for_android.sh"
+5) Open and build the project in Android Studio
+
+The build-script will build FFMPEG and copy all needed files into the project.
+Don't move or rename src/main/jniInclude and src/main/jniLibs
+
+
+
+# What has changed
+
 
 03.08.2016
 ===========
 Transferred to a gradle-experimental:0.7.2 project in Android Studio
 Works with FFMPEG 2.7.7
-
+Updated build script to be a "out-of-the-box" solution - hopefully.
 
 
 ==============

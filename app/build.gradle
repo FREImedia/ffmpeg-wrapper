@@ -3,13 +3,12 @@ apply plugin: 'com.android.model.application'
 model {
     android {
         // SETTINGS
-        def ffmpeg_base = "/Users/mat/Downloads/ffmpeg-2.7.7/"
         def flavour =  "armeabi-v7a" // armeabi-v7a, x86
 
         // CONFIG
         buildToolsVersion = "23.0.2"
         compileSdkVersion = 23
-        def ffmpeg = ffmpeg_base + "android/arm/include"
+        //def ffmpeg = ffmpeg_base + "android/arm/include"
 
         defaultConfig {
             applicationId = 'com.example.hellojni'
@@ -19,17 +18,15 @@ model {
         ndk {
             moduleName = "native"
 
-            ldLibs.addAll("log", "android", "GLESv2", "dl", "atomic", "EGL",
-                    "z", "stdc++", "OpenSLES")
-
-            cppFlags.addAll("-std=c++11", "-fexceptions", '-I' + file(ffmpeg),
+            cppFlags.addAll("-std=c++11", "-fexceptions",
                     "-D __cplusplus=201103L", "-frtti",
                     "-D __GXX_EXPERIMENTAL_CXX0X__")
             cppFlags.add('-I' + file("src/main/jni"))
-            CFlags.add('-I' + file(ffmpeg_base))
-
+            cppFlags.add('-I' + file("src/main/jniInclude/"+flavour))
+            CFlags.add('-I' + file("src/main/jniInclude/"+flavour+"/"))
             ldFlags.addAll("-L${file("src/main/jniLibs/"+flavour+"/")}".toString())
-            ldLibs.addAll(["avutil", "swscale","swresample", "avcodec", "avformat", "avfilter", "avdevice", "ffmpeg"])
+            ldLibs.addAll(["ffmpeg"])
+            ldLibs.addAll("log", "android", "GLESv2", "dl", "atomic", "EGL", "z", "stdc++", "OpenSLES")
 
             stl = "gnustl_shared"
 
