@@ -2,14 +2,15 @@ package no.hyper.ffmpegwrapper;
 
 public class FfmpegService {
 	static {
-		System.loadLibrary("avutil-54");
-		System.loadLibrary("swscale-3");
-		System.loadLibrary("swresample-1");
-		System.loadLibrary("avcodec-56");
-		System.loadLibrary("avformat-56");
-		System.loadLibrary("avfilter-5");
-		System.loadLibrary("avdevice-56");
-		System.loadLibrary("ffmpeg-app");
+//		System.loadLibrary("avutil");
+//		System.loadLibrary("swscale");
+//		System.loadLibrary("swresample");
+//		System.loadLibrary("avcodec");
+//		System.loadLibrary("avformat");
+//		System.loadLibrary("avfilter");
+//		System.loadLibrary("avdevice");
+		System.loadLibrary("ffmpeg");
+		System.loadLibrary("native");
 	}
 	
 	public int execute(final String cmd, final Callback cb){

@@ -17,6 +17,15 @@ to make sure the changes are very few, so that when it upgrades, I don't need to
 =====================================
  What was changed
 =====================================
+
+03.08.2016
+===========
+Transferred to a gradle-experimental:0.7.2 project in Android Studio
+Works with FFMPEG 2.7.7
+
+
+
+==============
 1. main() -> __main()
 
 2. hook log_infrastrucutre to Android's
@@ -24,3 +33,6 @@ to make sure the changes are very few, so that when it upgrades, I don't need to
 3. exit() -> longjmp()
 For an Linux app, 'exit on error' is a good enough approach, but not for a library - it would crash the whole process.
 So all the exit is changed to longjmp back to Java layer
+
+
+

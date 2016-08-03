@@ -1,0 +1,70 @@
+apply plugin: 'com.android.model.application'
+
+model {
+    android {
+        // SETTINGS
+        def ffmpeg_base = "/Users/mat/Downloads/ffmpeg-2.7.7/"
+        def flavour =  "armeabi-v7a" // armeabi-v7a, x86
+
+        // CONFIG
+        buildToolsVersion = "23.0.2"
+        compileSdkVersion = 23
+        def ffmpeg = ffmpeg_base + "android/arm/include"
+
+        defaultConfig {
+            applicationId = 'com.example.hellojni'
+            minSdkVersion.apiLevel = 19
+            targetSdkVersion.apiLevel = 23
+        }
+        ndk {
+            moduleName = "native"
+
+            ldLibs.addAll("log", "android", "GLESv2", "dl", "atomic", "EGL",
+                    "z", "stdc++", "OpenSLES")
+
+            cppFlags.addAll("-std=c++11", "-fexceptions", '-I' + file(ffmpeg),
+                    "-D __cplusplus=201103L", "-frtti",
+                    "-D __GXX_EXPERIMENTAL_CXX0X__")
+            cppFlags.add('-I' + file("src/main/jni"))
+            CFlags.add('-I' + file(ffmpeg_base))
+
+            ldFlags.addAll("-L${file("src/main/jniLibs/"+flavour+"/")}".toString())
+            ldLibs.addAll(["avutil", "swscale","swresample", "avcodec", "avformat", "avfilter", "avdevice", "ffmpeg"])
+
+            stl = "gnustl_shared"
+
+            ndk.abiFilters.add(flavour)
+        }
+
+        buildTypes {
+            release {
+                minifyEnabled = false
+                proguardFiles.add(file('proguard-android.txt'))
+            }
+        }
+
+        productFlavors {
+            // for detailed abiFilter descriptions, refer to "Supported ABIs" @
+            // https://developer.android.com/ndk/guides/abis.html#sa
+
+            create("arm7") {
+                ndk.abiFilters.add("armeabi-v7a")
+            }
+
+            create("arm") {
+                ndk.abiFilters.add("armeabi")
+            }
+
+            create("x86") {
+                ndk.abiFilters.add("x86")
+            }
+
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+}
