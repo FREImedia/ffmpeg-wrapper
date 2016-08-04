@@ -18,7 +18,7 @@ to make sure the changes are very few, so that when it upgrades, I don't need to
 # How to use ist
 
 1) Clone repo
-2) Download FFMPEG 2.7.7 source files
+2) Download FFMPEG 3.1.1 source files
 3) Set paths in ffmpeg_build_script/build_for_android.sh
 4) run "sh ffmpeg_build_script/build_for_android.sh"
 5) Open and build the project in Android Studio
@@ -29,6 +29,10 @@ Don't move or rename src/main/jniInclude and src/main/jniLibs
 
 
 # What has changed
+
+04.08.2016
+==========
+Updated scripts to work with FFMPEG-3.1.1
 
 
 03.08.2016
