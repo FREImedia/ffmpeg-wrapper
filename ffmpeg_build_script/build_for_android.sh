@@ -10,7 +10,7 @@
 
 # SETUP
 NDK=~/Library/Android/sdk/ndk-bundle
-FFMPEG_SRC=/Users/mat/Downloads/ffmpeg-2.7.7
+FFMPEG_SRC=/Users/mat/Downloads/ffmpeg-3.1.1
 
 FLAVOUR=armeabi-v7a
 CPU=arm
@@ -74,6 +74,8 @@ function remove_duplicates {
     rm ${FFMPEG_SRC}/libswscale/log2_tab.o
     rm ${FFMPEG_SRC}/libswresample/log2_tab.o
     rm ${FFMPEG_SRC}/libavfilter/log2_tab.o
+
+    rm ${FFMPEG_SRC}/libavcodec/reverse.o
 }
 
 
@@ -84,7 +86,7 @@ function combine_libs {
 
     $CC -lm -lz -shared --sysroot=${SYSROOT} -Wl,--no-undefined -Wl,-z,noexecstack ${EXTRA_LDFLAGS} \
     libavutil/*.o libavutil/arm/*.o libavcodec/*.o libavcodec/arm/*.o libavformat/*.o libavfilter/*.o   \
-    libavdevice/*.o libswresample/*.o libswscale/*.o libswresample/arm/*.o compat/*.o   \
+    libavdevice/*.o libswresample/*.o libswscale/*.o libswscale/arm/*.o libswresample/arm/*.o compat/*.o   \
      -o ./libffmpeg-all.so
 }
 
@@ -98,9 +100,9 @@ function setup_project {
     mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniLibs/
     mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniLibs/${FLAVOUR}
     mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniLibs/${FLAVOUR}/bin
+
     cp ${FFMPEG_SRC}/${PREFIX}/bin/* ${ABSOLUTE_PATH}/../app/src/main/jniLibs/${FLAVOUR}/bin/
     cp ${FFMPEG_SRC}/libffmpeg-all.so ${ABSOLUTE_PATH}/../app/src/main/jniLibs/${FLAVOUR}/libffmpeg.so
-    cp ${FFMPEG_SRC}/${PREFIX}/libs/* ${ABSOLUTE_PATH}/../app/src/main/jniLibs/${FLAVOUR}/
 
 
     # Header
@@ -108,22 +110,36 @@ function setup_project {
     mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}
     rm -rf ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/
     rm -rf ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/
+
     mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/
     cp -R ${FFMPEG_SRC}/${PREFIX}/include/* ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/
 
     # Other headers
     cp ${FFMPEG_SRC}/*.h ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/
+
     mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/compat/
     cp ${FFMPEG_SRC}/compat/*.h ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/compat/
+
     mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libavresample/
     cp ${FFMPEG_SRC}/libavresample/*.h ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libavresample/
+
     mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libavutil/
     cp ${FFMPEG_SRC}/libavutil/*.h ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libavutil/
+
+    mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libavutil/arm/
+    cp ${FFMPEG_SRC}/libavutil/arm/*.h ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libavutil/arm/
+
     mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libavformat/
     cp ${FFMPEG_SRC}/libavformat/*.h ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libavformat/
+
     mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libpostproc/
     cp ${FFMPEG_SRC}/libpostproc/*.h ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libpostproc/
 
+    mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libavcodec/
+    cp ${FFMPEG_SRC}/libavcodec/*.h ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libavcodec/
+
+    mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libavcodec/arm
+    cp ${FFMPEG_SRC}/libavcodec/arm/*.h ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/libavcodec/arm/
 }
 
 

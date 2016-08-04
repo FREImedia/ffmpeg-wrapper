@@ -27,7 +27,7 @@ jmp_buf jmp_exit;
 
 #define MODULE_FFMPEG "FFMPEG"
 
-extern int __main(int argc, char** argv);
+extern int main(int argc, char** argv);
 
 
 static void log_callback_android(void *ptr, int level, const char *fmt, va_list vl)
@@ -68,7 +68,7 @@ JNIEXPORT jint JNICALL Java_no_hyper_ffmpegwrapper_FfmpegService__1_1execute
 	if(setjmp(jmp_exit))
 		return i;
 
-	__main(argc, argv);
+	main(argc, argv);
 
 	free (cmd);
 	return 0;
