@@ -21,6 +21,7 @@
 #include <libswscale/swscale.h>
 #include <assert.h>
 #include <android/log.h>
+#include <libavcodec/jni.h>
 #include "ffmpeg_wrapper.h"
 
 jmp_buf jmp_exit;
@@ -70,6 +71,11 @@ JNIEXPORT jint JNICALL Java_no_hyper_ffmpegwrapper_FfmpegService__1_1execute
 
 	main(argc, argv);
 
+    // Enable mediacodec
+    JavaVM* jvm;
+    (*env)->GetJavaVM(env, &jvm);
+    av_jni_set_java_vm(&jvm, NULL);
+
 	free (cmd);
 	return 0;
 }
@@ -78,3 +84,20 @@ JNIEXPORT void JNICALL Java_no_hyper_ffmpegwrapper_FfmpegService_cancel
   (JNIEnv * env, jobject self)
 {
 }
+
+jint JNI_OnLoad(JavaVM* vm, void* reserved)
+{
+    JNIEnv* env;
+    //if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_6) != JNI_OK) {
+    if ((*vm)->GetEnv(vm, (void **) &env, JNI_VERSION_1_6) != JNI_OK) {
+        return -1;
+    }
+
+    // Get jclass with env->FindClass.
+    // Register methods with env->RegisterNatives.
+
+    return JNI_VERSION_1_6;
+}
+
+
+

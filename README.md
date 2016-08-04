@@ -32,6 +32,7 @@ Don't move or rename src/main/jniInclude and src/main/jniLibs
 
 ### 04.08.2016
 Updated scripts to work with FFMPEG-3.1.1
+Included support for FFMPEG-MediaCodec based hardware acceleration
 
 
 ### 03.08.2016

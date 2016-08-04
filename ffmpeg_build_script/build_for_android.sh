@@ -114,6 +114,7 @@ function setup_project {
     mkdir -p ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/
     cp -R ${FFMPEG_SRC}/${PREFIX}/include/* ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/
 
+
     # Other headers
     cp ${FFMPEG_SRC}/*.h ${ABSOLUTE_PATH}/../app/src/main/jniInclude/${FLAVOUR}/
 
